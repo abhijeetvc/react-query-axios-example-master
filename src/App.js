@@ -27,34 +27,35 @@ function App() {
     return JSON.stringify(res, null, 2);
   };
 
-  const { isLoading: isLoadingTutorials, refetch: getAllTutorials } = useQuery(
-    "query-tutorials",
-     fetchAllTutorials
-    ,
-    {
-      enabled: false,
-      onSuccess: (res) => {
-        const result = {
-          status: res.status + "-" + res.statusText,
-          headers: res.headers,
-          data: res.data,
-        };
+  // const { isLoading: isLoadingTutorials, refetch: getAllTutorials } = useQuery(
+  //   "query-tutorials",
+  //    fetchAllTutorials
+  //   ,
+  //   {
+  //     enabled: false,
+  //     onSuccess: (res) => {
+  //       const result = {
+  //         status: res.status + "-" + res.statusText,
+  //         headers: res.headers,
+  //         data: res.data,
+  //       };
 
-        setGetResult(fortmatResponse(result));
-      },
-      onError: (err) => {
-        setGetResult(fortmatResponse(err.response?.data || err));
-      },
-    }
-  );
+  //       setGetResult(fortmatResponse(result));
+  //     },
+  //     onError: (err) => {
+  //       setGetResult(fortmatResponse(err.response?.data || err));
+  //     },
+  //   }
+  // );
 
-  useEffect(() => {
-    if (isLoadingTutorials) setGetResult("loading...");
-  }, [isLoadingTutorials]);
+  // useEffect(() => {
+  //   getAllTutorials()
+  //   if (isLoadingTutorials) setGetResult("loading...");
+  // }, [isLoadingTutorials]);
 
   function getAllData() {
     try {
-      getAllTutorials();
+    //  getAllTutorials();
     } catch (err) {
       setGetResult(fortmatResponse(err));
     }
@@ -72,7 +73,7 @@ function App() {
         const result = {
           status: res.status + "-" + res.statusText,
           headers: res.headers,
-          data: res.data,
+          data: res,
         };
 
         setGetResult(fortmatResponse(result));
@@ -137,20 +138,22 @@ function App() {
 
   const { isLoading: isPostingTutorial, mutate: postTutorial } = useMutation(
     async () => {
-      return await apiClient.post(`/tutorials`, {
-        title: postTitle,
-        description: postDescription,
-      });
+      return await apiClient.post(`/organizations/organizationlist`, {
+        page:0,
+        size:10,
+        searchString:'S'
+    });
     },
     {
       onSuccess: (res) => {
-        const result = {
-          status: res.status + "-" + res.statusText,
-          headers: res.headers,
-          data: res.data,
-        };
 
-        setPostResult(fortmatResponse(result));
+        const result = {
+          status: res.status,
+          headers: res.headers,
+          data: res,
+        };
+       console.log(result);
+       setPostResult(fortmatResponse(result));
       },
       onError: (err) => {
         setPostResult(fortmatResponse(err.response?.data || err));
