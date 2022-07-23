@@ -4,14 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Organisation from './Organisation'
-
+import Testing from './Testing';
 import { QueryClient, QueryClientProvider } from "react-query";
+import New from './New';
+import { ReactQueryDevtools } from 'react-query-devtools';
+
 const queryClient = new QueryClient();
 
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Organisation/>
+      <New/>
+    
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation ,refetchOnMount} from "react-query";
 import "./App.css";
 import { fetchAllTutorials } from "./services/tutorials/tutorialservices";
  import apiClient from "./http-common";
@@ -61,12 +61,14 @@ function App() {
     }
   }
 
-  const { isLoading: isLoadingTutorial, refetch: getTutorialById } = useQuery(
+  const { isLoading: isLoadingTutorial, 
+    refetch: getTutorialById } = useQuery(
     "query-tutorial-by-id",
     async () => {
-      return await apiClient.get(`/tutorials/${getId}`);
+      return await apiClient.get(`/users/1`);
     },
     {
+      refetchOnMount,
       enabled: false,
       retry: 1,
       onSuccess: (res) => {
@@ -75,8 +77,9 @@ function App() {
           headers: res.headers,
           data: res,
         };
-
+     
         setGetResult(fortmatResponse(result));
+        console.log('hiiiii');
       },
       onError: (err) => {
         setGetResult(fortmatResponse(err.response?.data || err));
